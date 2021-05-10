@@ -5,7 +5,7 @@ function App() {
   const mainImgVariables = {
     w: 500,
     h: 500,
-    dp: 25,
+    dp: 15,
   };
 
   const secImgVariables = {
@@ -16,7 +16,7 @@ function App() {
   return (
     <CloudinaryContext cloudName="milecia">
       <div>
-        <Image publicId="sample">
+        <Image publicId="beach-boat.jpg">
           <Transformation
             width={mainImgVariables.w}
             height={mainImgVariables.h}
@@ -25,7 +25,7 @@ function App() {
           <Transformation
             width={mainImgVariables.w}
             height={mainImgVariables.h}
-            overlay="sample"
+            overlay="beach-boat.jpg"
             opacity="60"
             border="1px_solid_rgb:FFFFFF"
             crop="fill"
@@ -48,7 +48,7 @@ function App() {
           <Transformation
             width={mainImgVariables.w}
             height={mainImgVariables.h}
-            overlay="sample"
+            overlay="beach-boat.jpg"
             opacity="60"
             border="1px_solid_rgb:FFFFFF"
             crop="fill"
