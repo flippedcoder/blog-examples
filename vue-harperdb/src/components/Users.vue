@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex">
-      <h3>Users:</h3>
+      <h2>Users</h2>
       <button v-on:click="showForm = true">Add new user</button>
     </div>
     <table class="table">
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     addUser: function(data) {
-      console.log(data)
+      console.log(data);
       axios
         .post(
           "https://cloud-0-milecia.harperdbcloud.com",
@@ -110,13 +110,12 @@ export default {
           }
         )
         .then((response) => {
-          console.log(response)
+          console.log(response);
         })
         .catch((error) => {
           console.log(error);
           this.errored = true;
-        })
-        .finally(() => (this.loading = false));
+        });
     },
   },
 };
@@ -128,6 +127,8 @@ h3 {
 }
 
 .flex {
+  align-items: center;
   display: flex;
+  justify-content: center;
 }
 </style>
