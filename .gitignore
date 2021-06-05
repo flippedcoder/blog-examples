@@ -2,6 +2,7 @@
 
 # dependencies
 */node_modules
+/step-up-auth/*/node_modules
 /.pnp
 .pnp.js
 

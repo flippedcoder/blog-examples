@@ -27,12 +27,12 @@ function App() {
 
   const vidB = ["reindeer", "3dogs", "dessert"];
 
-  const vidC = ["3dogs", "reindeer", "sample"];
+  const vidC = ["beach-boat", "3dogs", "reindeer"];
 
   const vidD = {
     images: ["reindeer", "sample"],
-    videos: ["elephants", "sea-turtle"]
-  }
+    videos: ["elephants", "sea-turtle"],
+  };
 
   return (
     <VideoContainer>
@@ -44,7 +44,7 @@ function App() {
             vidVars.tdur
           };transition_s:circlecrop;slides_(${vidA
             .map((mediaDoc) => `(media_i:${mediaDoc})`)
-            .join(";")}))/f_auto,q_auto/slideshow.mp4`}
+            .join(";")}))/f_auto,q_auto/slideshow_hlhpzw.mp4`}
           type="video/mp4"
         />
         Your browser does not support the video tag.
@@ -57,7 +57,7 @@ function App() {
             vidVars.tdur
           };transition_s:circlecrop;slides_(${vidB
             .map((mediaDoc) => `(media_i:${mediaDoc})`)
-            .join(";")}))/f_auto,q_auto/slideshow.mp4`}
+            .join(";")}))/f_auto,q_auto/slideshow_hlhpzw.mp4`}
           type="video/mp4"
         />
         Your browser does not support the video tag.
@@ -70,7 +70,7 @@ function App() {
             vidVars.tdur
           };transition_s:circlecrop;slides_(${vidC
             .map((mediaDoc) => `(media_i:${mediaDoc})`)
-            .join(";")}))/f_auto,q_auto/slideshow.mp4`}
+            .join(";")}))/f_auto,q_auto/slideshow_hlhpzw.mp4`}
           type="video/mp4"
         />
         Your browser does not support the video tag.
@@ -85,7 +85,7 @@ function App() {
             .map((mediaDoc) => `(media_i:${mediaDoc})`)
             .join(";")}${vidD.videos
             .map((mediaDoc) => `(media_v:${mediaDoc};type_s:video)`)
-            .join(";")}))/f_auto,q_auto/slideshow.mp4`}
+            .join(";")}))/f_auto,q_auto/slideshow_hlhpzw.mp4`}
           type="video/mp4"
         />
         Your browser does not support the video tag.
