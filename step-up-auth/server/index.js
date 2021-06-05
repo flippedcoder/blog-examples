@@ -35,7 +35,8 @@ app.use('/login', require('./routes/login'));
 app.use('/oauth-callback', require('./routes/oauth-callback'));
 app.use('/logout', require('./routes/logout'));
 app.use('/set-user-data', require('./routes/set-user-data'));
-app.use('/step-up', require('./routes/step-up'));
+app.use('/step-up-start', require('./routes/step-up-start'));
+app.use('/step-up-fin', require('./routes/step-up-fin'));
 
 // start server
 app.listen(config.serverPort, () => console.log(`FusionAuth example app listening on port ${config.serverPort}.`));

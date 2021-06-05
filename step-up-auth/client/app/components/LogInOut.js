@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default class LogInOut extends React.Component {
   constructor(props) {
@@ -6,16 +6,20 @@ export default class LogInOut extends React.Component {
   }
 
   render() {
-    let message = (this.props.body.token)
-      ? 'sign out'
-      : 'sign in';
+    let message = this.props.body.token ? "sign out" : "sign in";
 
-    let path = (this.props.body.token)
-      ? '/logout'
-      : '/login';
+    let path = this.props.body.token ? "/logout" : "/login";
 
     return (
-      <a href={this.props.uri + path}>{message}</a>
+      <div>
+        <a href={this.props.uri + path}>{message}</a>
+        <a
+          style={{ marginLeft: "24px" }}
+          href={this.props.uri + "/step-up-start"}
+        >
+          Request Access
+        </a>
+      </div>
     );
   }
 }
