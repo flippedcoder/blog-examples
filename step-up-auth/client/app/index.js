@@ -101,10 +101,9 @@ class App extends React.Component {
             </div>
           )}
           {this.state.body.isStepUpAuthed && (
-            <UserData
-              body={this.state.body}
-              handleTextInput={this.handleTextInput}
-            />
+            <>
+              It's up to you to actually send that telegram, but <a href="https://www.babaloons.com/" target="_blank">here's a link to a service</a> that handles that for you!
+            </>
           )}
           <Response body={this.state.body} />
         </main>

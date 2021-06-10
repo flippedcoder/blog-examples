@@ -6,7 +6,7 @@ export default class LogInOut extends React.Component {
   }
 
   render() {
-    let message = this.props.body.token ? "sign out" : "sign in";
+    let message = this.props.body.token ? "Sign out" : "Sign in";
 
     let path = this.props.body.token ? "/logout" : "/login";
 
@@ -17,7 +17,7 @@ export default class LogInOut extends React.Component {
           style={{ marginLeft: "24px" }}
           href={this.props.uri + "/step-up-start"}
         >
-          Request Access
+          Send Singing Telegram
         </a>
       </div>
     );
