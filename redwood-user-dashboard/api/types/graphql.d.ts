@@ -3,6 +3,7 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -17,13 +18,79 @@ export type Scalars = {
   Time: string;
 };
 
+export type CreateTeamInput = {
+  name: Scalars['String'];
+};
+
+export type CreateUserInput = {
+  email: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  teamId?: Maybe<Scalars['Int']>;
+};
 
 
 
+
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createTeam: Team;
+  createUser: User;
+  deleteTeam: Team;
+  deleteUser: User;
+  updateTeam: Team;
+  updateUser: User;
+};
+
+
+export type MutationCreateTeamArgs = {
+  input: CreateTeamInput;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationDeleteTeamArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationUpdateTeamArgs = {
+  id: Scalars['Int'];
+  input: UpdateTeamInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['Int'];
+  input: UpdateUserInput;
+};
 
 export type Query = {
   __typename?: 'Query';
   redwood?: Maybe<Redwood>;
+  team?: Maybe<Team>;
+  teams: Array<Team>;
+  user?: Maybe<User>;
+  users: Array<User>;
+};
+
+
+export type QueryTeamArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['Int'];
 };
 
 export type Redwood = {
@@ -33,6 +100,32 @@ export type Redwood = {
   prismaVersion?: Maybe<Scalars['String']>;
 };
 
+export type Team = {
+  __typename?: 'Team';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  User: Array<Maybe<User>>;
+};
+
+
+export type UpdateTeamInput = {
+  name?: Maybe<Scalars['String']>;
+};
+
+export type UpdateUserInput = {
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  teamId?: Maybe<Scalars['Int']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['Int'];
+  email: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  team?: Maybe<Team>;
+  teamId?: Maybe<Scalars['Int']>;
+};
 
 
 
@@ -112,27 +205,43 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  CreateTeamInput: CreateTeamInput;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  CreateUserInput: CreateUserInput;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Redwood: ResolverTypeWrapper<Redwood>;
-  String: ResolverTypeWrapper<Scalars['String']>;
+  Team: ResolverTypeWrapper<Team>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
+  UpdateTeamInput: UpdateTeamInput;
+  UpdateUserInput: UpdateUserInput;
+  User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  CreateTeamInput: CreateTeamInput;
+  String: Scalars['String'];
+  CreateUserInput: CreateUserInput;
+  Int: Scalars['Int'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
+  Mutation: {};
   Query: {};
   Redwood: Redwood;
-  String: Scalars['String'];
+  Team: Team;
   Time: Scalars['Time'];
+  UpdateTeamInput: UpdateTeamInput;
+  UpdateUserInput: UpdateUserInput;
+  User: User;
   Boolean: Scalars['Boolean'];
 };
 
@@ -152,8 +261,21 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
   name: 'JSONObject';
 }
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationCreateTeamArgs, 'input'>>;
+  createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'id'>>;
+  deleteUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
+  updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationUpdateTeamArgs, 'id' | 'input'>>;
+  updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   redwood?: Resolver<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
+  team?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType, RequireFields<QueryTeamArgs, 'id'>>;
+  teams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type RedwoodResolvers<ContextType = any, ParentType extends ResolversParentTypes['Redwood'] = ResolversParentTypes['Redwood']> = {
@@ -163,18 +285,37 @@ export type RedwoodResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  User?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
   name: 'Time';
 }
+
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  team?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType>;
+  teamId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Redwood?: RedwoodResolvers<ContextType>;
+  Team?: TeamResolvers<ContextType>;
   Time?: GraphQLScalarType;
+  User?: UserResolvers<ContextType>;
 };
 
 
