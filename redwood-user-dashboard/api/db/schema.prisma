@@ -19,7 +19,16 @@ model User {
 }
 
 model Team {
-  id   Int    @id @default(autoincrement())
-  name String
-  User User[]
+  id     Int     @id @default(autoincrement())
+  name   String
+  User   User[]
+  alerts Alert[]
+}
+
+model Alert {
+  id       Int    @id @default(autoincrement())
+  name     String
+  priority String
+  team     Team   @relation(fields: [teamId], references: [id])
+  teamId   Int
 }
