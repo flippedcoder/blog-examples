@@ -3,21 +3,19 @@ import { useMutation, useQuery } from '@redwoodjs/web'
 import styled from 'styled-components'
 
 const HomePage = () => {
-  const { loading, error, data } = useQuery(SETTING)
+  const { loading, error, data } = useQuery(SETTING, { variables: { id: 1 } })
 
   const [updateSetting] = useMutation(UPDATE_SETTING)
 
   const onSubmit = (data) => {
+    console.log(data)
     updateSetting({
       variables: {
-        input: {
-          id: 1,
-          videoName: data.videoName,
-          loop: data.loop,
-        },
+        id: 1,
+        videoName: data.videoName,
+        loop: data.loop,
       },
     })
-    console.log(data)
   }
 
   if (loading) {
@@ -32,26 +30,26 @@ const HomePage = () => {
     <Container>
       <VideoPlayer
         controls="controls"
-        loop={data.loop || false}
+        loop={data.setting.loop || false}
         poster={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-          data.videoName || 'elephants'
+          data.setting.videoName || 'elephants'
         }.jpg`}
       >
         <source
           src={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-            data.videoName || 'elephants'
+            data.setting.videoName || 'elephants'
           }.webm`}
           type="video/webm"
         />
         <source
           src={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-            data.videoName || 'elephants'
+            data.setting.videoName || 'elephants'
           }.mp4`}
           type="video/mp4"
         />
         <source
           src={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-            data.videoName || 'elephants'
+            data.setting.videoName || 'elephants'
           }.ogv`}
           type="video/ogg"
         />
@@ -70,7 +68,7 @@ const HomePage = () => {
 
 const SETTING = gql`
   query Setting($id: Int) {
-    setting(id: 1) {
+    setting(id: $id) {
       id
       videoName
       loop
@@ -79,14 +77,8 @@ const SETTING = gql`
 `
 
 const UPDATE_SETTING = gql`
-  mutation UpdateSetting(
-    $id: Int
-    $videoName: String
-    $loop: Boolean
-  ) {
-    updateSetting(
-      input: { id: $id, videoName: $videoName, loop: $loop }
-    ) {
+  mutation UpdateSetting($id: Int, $videoName: String, $loop: Boolean) {
+    updateSetting(input: { id: $id, videoName: $videoName, loop: $loop }) {
       id
       videoName
       loop

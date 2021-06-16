@@ -8,7 +8,7 @@ export const beforeResolver = (rules) => {
 
 export const setting = (input) => {
   return db.setting.findFirst({
-    where: { id: input }
+    where: { id: input.id }
   })
 }
 
@@ -17,7 +17,7 @@ export const createSetting = ({ input }) => {
 }
 
 export const updateSetting = ({ input }) => {
-  console.log(`This is the input: + ${input.videoName}`)
+  console.log(`This is the input: + ${input.id}`)
   return db.setting.update({
     where: { id: input.id },
     data: {
