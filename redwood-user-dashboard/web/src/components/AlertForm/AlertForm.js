@@ -1,14 +1,12 @@
-import { useState } from 'react'
 import {
   Form,
   FormError,
   FieldError,
   Label,
   TextField,
+  NumberField,
   Submit,
 } from '@redwoodjs/forms'
-import styled from 'styled-components'
-import ImageUploader from 'react-images-upload'
 
 const formatDatetime = (value) => {
   if (value) {
@@ -16,27 +14,9 @@ const formatDatetime = (value) => {
   }
 }
 
-const TeamForm = (props) => {
-  const [uploadedPictures, setUploadedPictures] = useState([])
-
+const AlertForm = (props) => {
   const onSubmit = (data) => {
-    uploadedPictures.map((picture) => {
-      const reader = new FileReader()
-
-      reader.readAsDataURL(picture[0])
-
-      reader.onload = function () {
-        const base64Url = reader.result
-
-        props.onSave({...data, teamImg: base64Url}, props?.team?.id)
-
-        location.reload()
-      }
-    })
-  }
-
-  const onDrop = (picture) => {
-    setUploadedPictures([...uploadedPictures, picture])
+    props.onSave(data, props?.alert?.id)
   }
 
   return (
@@ -58,23 +38,45 @@ const TeamForm = (props) => {
         </Label>
         <TextField
           name="name"
-          defaultValue={props.team?.name}
+          defaultValue={props.alert?.name}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
         />
         <FieldError name="name" className="rw-field-error" />
-        <Container>
-          <ImageUploader
-            withIcon={true}
-            withPreview={true}
-            buttonText="Choose images"
-            onChange={(image) => onDrop(image)}
-            singleImage={true}
-            imgExtension={['.jpg', '.gif', '.png', '.gif']}
-            maxFileSize={52428800}
-          />
-        </Container>
+
+        <Label
+          name="priority"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Priority
+        </Label>
+        <TextField
+          name="priority"
+          defaultValue={props.alert?.priority}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
+        <FieldError name="priority" className="rw-field-error" />
+
+        <Label
+          name="teamId"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Team id
+        </Label>
+        <NumberField
+          name="teamId"
+          defaultValue={props.alert?.teamId}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
+        <FieldError name="teamId" className="rw-field-error" />
+
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
             Save
@@ -85,9 +87,4 @@ const TeamForm = (props) => {
   )
 }
 
-const Container = styled.div`
-  margin: auto;
-  width: 500px;
-`
-
-export default TeamForm
+export default AlertForm

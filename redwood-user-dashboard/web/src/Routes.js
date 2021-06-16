@@ -9,6 +9,8 @@
 
 import { Set, Router, Route } from '@redwoodjs/router'
 
+import AlertsLayout from 'src/layouts/AlertsLayout'
+
 import TeamsLayout from 'src/layouts/TeamsLayout'
 
 import UsersLayout from 'src/layouts/UsersLayout'
@@ -18,6 +20,12 @@ const Routes = () => {
   return (
     <Router>
       <Set wrap={DashboardLayout}>
+        <Set wrap={AlertsLayout}>
+          <Route path="/alerts/new" page={NewAlertPage} name="newAlert" />
+          <Route path="/alerts/{id:Int}/edit" page={EditAlertPage} name="editAlert" />
+          <Route path="/alerts/{id:Int}" page={AlertPage} name="alert" />
+          <Route path="/alerts" page={AlertsPage} name="alerts" />
+        </Set>
         <Set wrap={TeamsLayout}>
           <Route path="/teams/new" page={NewTeamPage} name="newTeam" />
           <Route path="/teams/{id:Int}/edit" page={EditTeamPage} name="editTeam" />

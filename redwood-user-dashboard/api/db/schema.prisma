@@ -19,10 +19,11 @@ model User {
 }
 
 model Team {
-  id     Int     @id @default(autoincrement())
-  name   String
-  User   User[]
-  alerts Alert[]
+  id      Int     @id @default(autoincrement())
+  name    String
+  User    User[]
+  alerts  Alert[]
+  teamImg String?
 }
 
 model Alert {

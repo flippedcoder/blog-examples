@@ -16,8 +16,24 @@ export type Scalars = {
   Time: string;
 };
 
+export type Alert = {
+  __typename?: 'Alert';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  priority: Scalars['String'];
+  team: Team;
+  teamId: Scalars['Int'];
+};
+
+export type CreateAlertInput = {
+  name: Scalars['String'];
+  priority: Scalars['String'];
+  teamId: Scalars['Int'];
+};
+
 export type CreateTeamInput = {
   name: Scalars['String'];
+  teamImg?: Maybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -32,12 +48,20 @@ export type CreateUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAlert: Alert;
   createTeam: Team;
   createUser: User;
+  deleteAlert: Alert;
   deleteTeam: Team;
   deleteUser: User;
+  updateAlert: Alert;
   updateTeam: Team;
   updateUser: User;
+};
+
+
+export type MutationCreateAlertArgs = {
+  input: CreateAlertInput;
 };
 
 
@@ -51,6 +75,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteAlertArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationDeleteTeamArgs = {
   id: Scalars['Int'];
 };
@@ -58,6 +87,12 @@ export type MutationDeleteTeamArgs = {
 
 export type MutationDeleteUserArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationUpdateAlertArgs = {
+  id: Scalars['Int'];
+  input: UpdateAlertInput;
 };
 
 
@@ -74,11 +109,18 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  alert?: Maybe<Alert>;
+  alerts: Array<Alert>;
   redwood?: Maybe<Redwood>;
   team?: Maybe<Team>;
   teams: Array<Team>;
   user?: Maybe<User>;
   users: Array<User>;
+};
+
+
+export type QueryAlertArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -103,11 +145,19 @@ export type Team = {
   id: Scalars['Int'];
   name: Scalars['String'];
   User: Array<Maybe<User>>;
+  teamImg?: Maybe<Scalars['String']>;
 };
 
 
+export type UpdateAlertInput = {
+  name?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['String']>;
+  teamId?: Maybe<Scalars['Int']>;
+};
+
 export type UpdateTeamInput = {
   name?: Maybe<Scalars['String']>;
+  teamImg?: Maybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -124,6 +174,57 @@ export type User = {
   team?: Maybe<Team>;
   teamId?: Maybe<Scalars['Int']>;
 };
+
+export type DeleteAlertMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteAlertMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteAlert: (
+    { __typename?: 'Alert' }
+    & Pick<Alert, 'id'>
+  ) }
+);
+
+export type Find_Alert_By_IdVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Find_Alert_By_Id = (
+  { __typename?: 'Query' }
+  & { alert?: Maybe<(
+    { __typename?: 'Alert' }
+    & Pick<Alert, 'id' | 'name' | 'priority' | 'teamId'>
+  )> }
+);
+
+export type AlertsVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Alerts = (
+  { __typename?: 'Query' }
+  & { alerts: Array<(
+    { __typename?: 'Alert' }
+    & Pick<Alert, 'id' | 'name' | 'priority' | 'teamId'>
+  )> }
+);
+
+export type UpdateAlertMutationVariables = Exact<{
+  id: Scalars['Int'];
+  input: UpdateAlertInput;
+}>;
+
+
+export type UpdateAlertMutation = (
+  { __typename?: 'Mutation' }
+  & { updateAlert: (
+    { __typename?: 'Alert' }
+    & Pick<Alert, 'id' | 'name' | 'priority' | 'teamId'>
+  ) }
+);
 
 export type Find_Team_By_IdVariables = Exact<{
   id: Scalars['Int'];
@@ -176,6 +277,19 @@ export type UpdateUserMutation = (
   & { updateUser: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email' | 'name' | 'teamId'>
+  ) }
+);
+
+export type CreateAlertMutationVariables = Exact<{
+  input: CreateAlertInput;
+}>;
+
+
+export type CreateAlertMutation = (
+  { __typename?: 'Mutation' }
+  & { createAlert: (
+    { __typename?: 'Alert' }
+    & Pick<Alert, 'id'>
   ) }
 );
 

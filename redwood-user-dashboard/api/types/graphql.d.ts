@@ -18,8 +18,24 @@ export type Scalars = {
   Time: string;
 };
 
+export type Alert = {
+  __typename?: 'Alert';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  priority: Scalars['String'];
+  team: Team;
+  teamId: Scalars['Int'];
+};
+
+export type CreateAlertInput = {
+  name: Scalars['String'];
+  priority: Scalars['String'];
+  teamId: Scalars['Int'];
+};
+
 export type CreateTeamInput = {
   name: Scalars['String'];
+  teamImg?: Maybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -34,12 +50,20 @@ export type CreateUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAlert: Alert;
   createTeam: Team;
   createUser: User;
+  deleteAlert: Alert;
   deleteTeam: Team;
   deleteUser: User;
+  updateAlert: Alert;
   updateTeam: Team;
   updateUser: User;
+};
+
+
+export type MutationCreateAlertArgs = {
+  input: CreateAlertInput;
 };
 
 
@@ -53,6 +77,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteAlertArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationDeleteTeamArgs = {
   id: Scalars['Int'];
 };
@@ -60,6 +89,12 @@ export type MutationDeleteTeamArgs = {
 
 export type MutationDeleteUserArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationUpdateAlertArgs = {
+  id: Scalars['Int'];
+  input: UpdateAlertInput;
 };
 
 
@@ -76,11 +111,18 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  alert?: Maybe<Alert>;
+  alerts: Array<Alert>;
   redwood?: Maybe<Redwood>;
   team?: Maybe<Team>;
   teams: Array<Team>;
   user?: Maybe<User>;
   users: Array<User>;
+};
+
+
+export type QueryAlertArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -105,11 +147,19 @@ export type Team = {
   id: Scalars['Int'];
   name: Scalars['String'];
   User: Array<Maybe<User>>;
+  teamImg?: Maybe<Scalars['String']>;
 };
 
 
+export type UpdateAlertInput = {
+  name?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['String']>;
+  teamId?: Maybe<Scalars['Int']>;
+};
+
 export type UpdateTeamInput = {
   name?: Maybe<Scalars['String']>;
+  teamImg?: Maybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -205,10 +255,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  CreateTeamInput: CreateTeamInput;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  CreateUserInput: CreateUserInput;
+  Alert: ResolverTypeWrapper<Alert>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  CreateAlertInput: CreateAlertInput;
+  CreateTeamInput: CreateTeamInput;
+  CreateUserInput: CreateUserInput;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
@@ -218,6 +270,7 @@ export type ResolversTypes = {
   Redwood: ResolverTypeWrapper<Redwood>;
   Team: ResolverTypeWrapper<Team>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
+  UpdateAlertInput: UpdateAlertInput;
   UpdateTeamInput: UpdateTeamInput;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
@@ -226,10 +279,12 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  CreateTeamInput: CreateTeamInput;
-  String: Scalars['String'];
-  CreateUserInput: CreateUserInput;
+  Alert: Alert;
   Int: Scalars['Int'];
+  String: Scalars['String'];
+  CreateAlertInput: CreateAlertInput;
+  CreateTeamInput: CreateTeamInput;
+  CreateUserInput: CreateUserInput;
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
   JSON: Scalars['JSON'];
@@ -239,10 +294,20 @@ export type ResolversParentTypes = {
   Redwood: Redwood;
   Team: Team;
   Time: Scalars['Time'];
+  UpdateAlertInput: UpdateAlertInput;
   UpdateTeamInput: UpdateTeamInput;
   UpdateUserInput: UpdateUserInput;
   User: User;
   Boolean: Scalars['Boolean'];
+};
+
+export type AlertResolvers<ContextType = any, ParentType extends ResolversParentTypes['Alert'] = ResolversParentTypes['Alert']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  team?: Resolver<ResolversTypes['Team'], ParentType, ContextType>;
+  teamId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -262,15 +327,20 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createAlert?: Resolver<ResolversTypes['Alert'], ParentType, ContextType, RequireFields<MutationCreateAlertArgs, 'input'>>;
   createTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationCreateTeamArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  deleteAlert?: Resolver<ResolversTypes['Alert'], ParentType, ContextType, RequireFields<MutationDeleteAlertArgs, 'id'>>;
   deleteTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'id'>>;
   deleteUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
+  updateAlert?: Resolver<ResolversTypes['Alert'], ParentType, ContextType, RequireFields<MutationUpdateAlertArgs, 'id' | 'input'>>;
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationUpdateTeamArgs, 'id' | 'input'>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  alert?: Resolver<Maybe<ResolversTypes['Alert']>, ParentType, ContextType, RequireFields<QueryAlertArgs, 'id'>>;
+  alerts?: Resolver<Array<ResolversTypes['Alert']>, ParentType, ContextType>;
   redwood?: Resolver<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
   team?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType, RequireFields<QueryTeamArgs, 'id'>>;
   teams?: Resolver<Array<ResolversTypes['Team']>, ParentType, ContextType>;
@@ -289,6 +359,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   User?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  teamImg?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -306,6 +377,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  Alert?: AlertResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   JSON?: GraphQLScalarType;
