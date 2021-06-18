@@ -1,9 +1,20 @@
-import { Form, TextField, CheckboxField, Submit } from '@redwoodjs/forms'
+import {
+  Form,
+  Label,
+  TextField,
+  CheckboxField,
+  RangeField,
+  RadioField,
+  Submit,
+} from '@redwoodjs/forms'
 import { useMutation, useQuery } from '@redwoodjs/web'
 import styled from 'styled-components'
+import ReactPlayer from 'react-player'
 
 const HomePage = () => {
   const { loading, error, data } = useQuery(SETTING, { variables: { id: 1 } })
+
+  console.log(data)
 
   const [updateSetting] = useMutation(UPDATE_SETTING)
 
@@ -14,6 +25,9 @@ const HomePage = () => {
         id: 1,
         videoName: data.videoName,
         loop: data.loop,
+        controls: data.controls,
+        volume: Number(data.volume),
+        playbackRate: Number(data.playbackRate),
       },
     })
   }
@@ -28,37 +42,45 @@ const HomePage = () => {
 
   return (
     <Container>
-      <VideoPlayer
-        controls="controls"
-        loop={data.setting.loop || false}
-        poster={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-          data.setting.videoName || 'elephants'
-        }.jpg`}
-      >
-        <source
-          src={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-            data.setting.videoName || 'elephants'
-          }.webm`}
-          type="video/webm"
-        />
-        <source
-          src={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-            data.setting.videoName || 'elephants'
+      <VideoPlayer>
+        <ReactPlayer
+          controls={data.setting.controls || true}
+          loop={data.setting.loop || false}
+          volume={data.setting.volume / 100 || 0.5}
+          playbackRate={data.setting.playbackRate || 1}
+          url={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
+            data.setting.videoName || 'elephant_herd'
           }.mp4`}
-          type="video/mp4"
-        />
-        <source
-          src={`https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/${
-            data.setting.videoName || 'elephants'
-          }.ogv`}
-          type="video/ogg"
-        />
-        Your browser does not support HTML5 video tags.
+        ></ReactPlayer>
       </VideoPlayer>
       <Form onSubmit={onSubmit}>
         <FormContainer>
-          <TextField name="videoName" />
-          <CheckboxField name="loop" />
+          <Label name="videoName">Video Name</Label>
+          <TextField name="videoName" defaultValue={data.setting.videoName} />
+          <Label name="loop">Loop</Label>
+          <CheckboxField name="loop" defaultValue={data.setting.loop} />
+          <Label name="controls">Controls</Label>
+          <CheckboxField name="controls" defaultValue={data.setting.controls} />
+          <Label name="volume">Volume</Label>
+          <RangeField name="volume" defaultValue={data.setting.volume} />
+          <Label name="playbackRate">1x</Label>
+          <RadioField
+            name="playbackRate"
+            defaultValue={data.setting.playbackRate}
+            value={1}
+          />
+          <Label name="playbackRate">1.5x</Label>
+          <RadioField
+            name="playbackRate"
+            defaultValue={data.setting.playbackRate}
+            value={1.5}
+          />
+          <Label name="playbackRate">2x</Label>
+          <RadioField
+            name="playbackRate"
+            defaultValue={data.setting.playbackRate}
+            value={2}
+          />
           <Submit>Save</Submit>
         </FormContainer>
       </Form>
@@ -72,16 +94,38 @@ const SETTING = gql`
       id
       videoName
       loop
+      controls
+      volume
+      playbackRate
     }
   }
 `
 
 const UPDATE_SETTING = gql`
-  mutation UpdateSetting($id: Int, $videoName: String, $loop: Boolean) {
-    updateSetting(input: { id: $id, videoName: $videoName, loop: $loop }) {
+  mutation UpdateSetting(
+    $id: Int
+    $videoName: String
+    $loop: Boolean
+    $controls: Boolean
+    $volume: Float
+    $playbackRate: Float
+  ) {
+    updateSetting(
+      input: {
+        id: $id
+        videoName: $videoName
+        loop: $loop
+        controls: $controls
+        volume: $volume
+        playbackRate: $playbackRate
+      }
+    ) {
       id
       videoName
       loop
+      controls
+      volume
+      playbackRate
     }
   }
 `
@@ -98,7 +142,7 @@ const FormContainer = styled.div`
   width: 500px;
 `
 
-const VideoPlayer = styled.video`
+const VideoPlayer = styled.div`
   display: block;
   margin: 0 auto;
   width: 50%;

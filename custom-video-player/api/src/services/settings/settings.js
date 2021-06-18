@@ -12,17 +12,16 @@ export const setting = (input) => {
   })
 }
 
-export const createSetting = ({ input }) => {
-  return db.setting.create({ data: input })
-}
-
 export const updateSetting = ({ input }) => {
-  console.log(`This is the input: + ${input.id}`)
+  console.log(`This is the input: + ${input.volume}`)
   return db.setting.update({
     where: { id: input.id },
     data: {
       loop: input.loop,
       videoName: input.videoName,
+      controls: input.controls,
+      volume: input.volume,
+      playbackRate: input.playbackRate,
     },
   })
 }

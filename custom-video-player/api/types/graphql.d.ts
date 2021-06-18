@@ -18,11 +18,6 @@ export type Scalars = {
   Time: string;
 };
 
-export type CreateSettingInput = {
-  videoName: Scalars['String'];
-  loop: Scalars['Boolean'];
-};
-
 
 
 
@@ -60,6 +55,9 @@ export type Setting = {
   id: Scalars['Int'];
   videoName: Scalars['String'];
   loop: Scalars['Boolean'];
+  controls: Scalars['Boolean'];
+  volume: Scalars['Float'];
+  playbackRate: Scalars['Float'];
 };
 
 
@@ -67,6 +65,9 @@ export type UpdateSettingInput = {
   id?: Maybe<Scalars['Int']>;
   videoName?: Maybe<Scalars['String']>;
   loop?: Maybe<Scalars['Boolean']>;
+  controls?: Maybe<Scalars['Boolean']>;
+  volume?: Maybe<Scalars['Float']>;
+  playbackRate?: Maybe<Scalars['Float']>;
 };
 
 
@@ -147,9 +148,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  CreateSettingInput: CreateSettingInput;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
@@ -158,16 +156,16 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Redwood: ResolverTypeWrapper<Redwood>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   Setting: ResolverTypeWrapper<Setting>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   UpdateSettingInput: UpdateSettingInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  CreateSettingInput: CreateSettingInput;
-  String: Scalars['String'];
-  Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
   JSON: Scalars['JSON'];
@@ -176,7 +174,10 @@ export type ResolversParentTypes = {
   Query: {};
   Int: Scalars['Int'];
   Redwood: Redwood;
+  String: Scalars['String'];
   Setting: Setting;
+  Boolean: Scalars['Boolean'];
+  Float: Scalars['Float'];
   Time: Scalars['Time'];
   UpdateSettingInput: UpdateSettingInput;
 };
@@ -217,6 +218,9 @@ export type SettingResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   videoName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   loop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  controls?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  volume?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  playbackRate?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

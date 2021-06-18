@@ -3,17 +3,18 @@ export const schema = gql`
     id: Int!
     videoName: String!
     loop: Boolean!
-  }
-
-  input CreateSettingInput {
-    videoName: String!
-    loop: Boolean!
+    controls: Boolean!
+    volume: Float!
+    playbackRate: Float!
   }
 
   input UpdateSettingInput {
     id: Int
     videoName: String
     loop: Boolean
+    controls: Boolean
+    volume: Float
+    playbackRate: Float
   }
 
   type Mutation {
