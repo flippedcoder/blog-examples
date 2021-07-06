@@ -1,0 +1,33 @@
+import { Link, routes } from '@redwoodjs/router'
+
+import Users from 'src/components/User/Users'
+
+export const QUERY = gql`
+  query USERS {
+    users {
+      id
+      username
+    }
+  }
+`
+
+export const Loading = () => <div>Loading...</div>
+
+export const Empty = () => {
+  return (
+    <div className="rw-text-center">
+      {'No users yet. '}
+      <Link to={routes.newUser()} className="rw-link">
+        {'Create one?'}
+      </Link>
+    </div>
+  )
+}
+
+export const Failure = ({ error }) => (
+  <div style={{ color: 'red' }}>Error: {error.message}</div>
+)
+
+export const Success = ({ users }) => {
+  return <Users users={users} />
+}
