@@ -10,26 +10,15 @@ generator client {
 
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
-model User {
-  id       Int     @id @default(autoincrement())
-  username String
-  image    Image?
-  videos   Video[]
-}
-
 model Video {
   id       Int    @id @default(autoincrement())
   name     String
   duration Float
   url      String
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int
 }
 
 model Image {
-  id     Int    @id @default(autoincrement())
-  name   String
-  url    String
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
+  id   Int    @id @default(autoincrement())
+  name String
+  url  String
 }

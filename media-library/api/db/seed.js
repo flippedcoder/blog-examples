@@ -20,10 +20,10 @@ async function main() {
     data: { username: 'Beth' },
   })
   await db.video.create({
-    data: { name: 'Beth_vid', duration: 7.34, url: "example.com", userId: 1 },
+    data: { name: 'Beth_vid', duration: 7.34, url: "example.com" },
   })
   await db.image.create({
-    data: { name: 'Beth_img', url: "example.com/beth.jpg", userId: 1 },
+    data: { name: 'Beth_img', url: "example.com/beth.jpg" },
   })
 }
 

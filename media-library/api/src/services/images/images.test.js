@@ -13,18 +13,13 @@ describe('images', () => {
     expect(result).toEqual(scenario.image.one)
   })
 
-  scenario('creates a image', async (scenario) => {
+  scenario('creates a image', async () => {
     const result = await createImage({
-      input: {
-        name: 'String',
-        url: 'String',
-        userId: scenario.image.two.userId,
-      },
+      input: { name: 'String', url: 'String' },
     })
 
     expect(result.name).toEqual('String')
     expect(result.url).toEqual('String')
-    expect(result.userId).toEqual(scenario.image.two.userId)
   })
 
   scenario('updates a image', async (scenario) => {

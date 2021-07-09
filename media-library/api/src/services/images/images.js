@@ -36,6 +36,6 @@ export const deleteImage = ({ id }) => {
 }
 
 export const Image = {
-  user: (_obj, { root }) =>
-    db.image.findUnique({ where: { id: root.id } }).user(),
+  User: (_obj, { root }) =>
+    db.image.findUnique({ where: { id: root.id } }).User(),
 }
