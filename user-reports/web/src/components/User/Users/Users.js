@@ -1,6 +1,15 @@
-import { useMutation } from '@redwoodjs/web'
+import { useMutation, useQuery } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes } from '@redwoodjs/router'
+import {
+  Page,
+  Image,
+  Text,
+  View,
+  Document,
+  PDFDownloadLink,
+  StyleSheet,
+} from '@react-pdf/renderer'
 
 import { QUERY } from 'src/components/User/UsersCell'
 
@@ -8,6 +17,17 @@ const DELETE_USER_MUTATION = gql`
   mutation DeleteUserMutation($id: Int!) {
     deleteUser(id: $id) {
       id
+    }
+  }
+`
+
+const GET_USER_PRODUCTS = gql`
+  query GetUserProductsQuery($id: Int!) {
+    getUserProducts(id: $id) {
+      quantity
+      name
+      imageUrl
+      price
     }
   }
 `
@@ -22,21 +42,36 @@ const truncate = (text) => {
   return output
 }
 
-const jsonTruncate = (obj) => {
-  return truncate(JSON.stringify(obj, null, 2))
-}
+// Create styles
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'row',
+    backgroundColor: '#E4E4E4',
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+})
 
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
+// Create Document Component
+const UserReport = ({ products }) => (
+  <Document>
+    {products.map((product) => (
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text>Name: {product.name}</Text>
+          <Text>Price: {product.price}</Text>
+          <Text>Quantity: {product.quantity}</Text>
+        </View>
+        <View style={styles.section}>
+          <Image src={product.imageUrl} />
+        </View>
+      </Page>
+    ))}
+  </Document>
+)
 
 const UsersList = ({ users }) => {
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
@@ -68,39 +103,55 @@ const UsersList = ({ users }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{truncate(user.id)}</td>
-              <td>{truncate(user.email)}</td>
-              <td>{truncate(user.name)}</td>
-              <td>
-                <nav className="rw-table-actions">
-                  <Link
-                    to={routes.user({ id: user.id })}
-                    title={'Show user ' + user.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                  <Link
-                    to={routes.editUser({ id: user.id })}
-                    title={'Edit user ' + user.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <a
-                    href="#"
-                    title={'Delete user ' + user.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(user.id)}
-                  >
-                    Delete
-                  </a>
-                </nav>
-              </td>
-            </tr>
-          ))}
+          {users.map((user) => {
+            const { loading, data } = useQuery(GET_USER_PRODUCTS, {
+              variables: { id: user.id },
+            })
+            if (loading) {
+              return <div>...</div>
+            }
+            return (
+              <tr key={user.id}>
+                <td>{truncate(user.id)}</td>
+                <td>{truncate(user.email)}</td>
+                <td>{truncate(user.name)}</td>
+                <td>
+                  <nav className="rw-table-actions">
+                    <Link
+                      to={routes.user({ id: user.id })}
+                      title={'Show user ' + user.id + ' detail'}
+                      className="rw-button rw-button-small"
+                    >
+                      Show
+                    </Link>
+                    <Link
+                      to={routes.editUser({ id: user.id })}
+                      title={'Edit user ' + user.id}
+                      className="rw-button rw-button-small rw-button-blue"
+                    >
+                      Edit
+                    </Link>
+                    <a
+                      href="#"
+                      title={'Delete user ' + user.id}
+                      className="rw-button rw-button-small rw-button-red"
+                      onClick={() => onDeleteClick(user.id)}
+                    >
+                      Delete
+                    </a>
+                    <PDFDownloadLink
+                      document={<UserReport products={data.getUserProducts} />}
+                      fileName={`user_report_${user.id}`}
+                    >
+                      {({ loading }) =>
+                        loading ? 'Generating report...' : 'Download'
+                      }
+                    </PDFDownloadLink>
+                  </nav>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

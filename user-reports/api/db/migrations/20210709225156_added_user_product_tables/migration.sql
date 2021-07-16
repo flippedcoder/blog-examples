@@ -12,7 +12,7 @@ CREATE TABLE "Product" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "imageUrl" TEXT NOT NULL,
-    "price" DECIMAL(65,30) NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
     "quantity" INTEGER NOT NULL,
     "userId" INTEGER,
 

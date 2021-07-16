@@ -35,6 +35,14 @@ export const deleteUser = ({ id }) => {
   })
 }
 
+export const getUserProducts = ({ id }) => {
+  return db.product.findMany({
+    where: {
+      userId: id
+    }
+  })
+}
+
 export const User = {
   products: (_obj, { root }) =>
     db.user.findUnique({ where: { id: root.id } }).products(),
