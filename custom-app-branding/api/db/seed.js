@@ -16,24 +16,36 @@ const db = new PrismaClient()
 async function main() {
   console.warn('Please define your seed data.')
 
-  // // Change to match your data model and seeding needs
-  // const data = [
-  //   { name: 'alice', email: 'alice@example.com' },
-  //   { name: 'mark', email: 'mark@example.com' },
-  //   { name: 'jackie', email: 'jackie@example.com' },
-  //   { name: 'bob', email: 'bob@example.com' },
-  // ]
+  await db.user.create({
+    data: { name: 'Nimothy' },
+  })
 
-  // // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
-  // // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
-  // return Promise.all(
-  //   data.map(async (user) => {
-  //     const record = await db.user.create({
-  //       data: { name: user.name, email: user.email },
-  //     })
-  //     console.log(record)
-  //   })
-  // )
+  await db.image.create({
+    data: {
+      name: 'Nimothy Profile',
+      url: 'https://res.cloudinary.com/milecia/image/upload/v1606580774/fish-vegetables.jpg',
+      userId: 1,
+    },
+  })
+
+  await db.info.create({
+    data: {
+      balance: 7.89,
+      lastLogin: new Date(),
+      endDate: new Date(),
+      userId: 1,
+    },
+  })
+
+  await db.layout.create({
+    data: {
+      name: 'MidLeft',
+      dataLocation: 'mid-left',
+      imageUrl:
+        'https://res.cloudinary.com/milecia/image/upload/v1606580774/fish-vegetables.jpg',
+      userId: 1,
+    },
+  })
 }
 
 main()
