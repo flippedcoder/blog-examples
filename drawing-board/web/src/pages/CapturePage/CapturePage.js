@@ -13,7 +13,6 @@ const CREATE_CAPTURE_MUTATION = gql`
 const GET_CAPTURES = gql`
   query {
     captures {
-      id
       name
       url
     }
@@ -22,7 +21,7 @@ const GET_CAPTURES = gql`
 
 const CapturePage = () => {
   const [createCapture] = useMutation(CREATE_CAPTURE_MUTATION)
-  const { data, loading } = useQuery(GET_CAPTURES)
+  const { data } = useQuery(GET_CAPTURES)
   const [canvas, setCanvas] = useState('')
 
   useEffect(() => {
@@ -52,16 +51,13 @@ const CapturePage = () => {
 
   return (
     <>
-      <h1>CapturePage</h1>
-      <p>
-        Find me in <code>./web/src/pages/CapturePage/CapturePage.js</code>
-      </p>
       <button onClick={saveCapture}>Save as image</button>
       <canvas id="capture" />
       <div style={{ display: 'flex' }}>
         {data?.captures &&
           data.captures.map((capture) => (
             <img
+              key={capture.name}
               style={{ padding: '24px', height: '100px', width: '100px' }}
               src={capture.url}
             />
