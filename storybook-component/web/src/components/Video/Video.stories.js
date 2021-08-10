@@ -2,7 +2,7 @@ import Video from './Video'
 
 const Template = args => <Video {...args} />
 
-export const generated = () => {
+export const index = () => {
   return (
     <>
       <p>There are several props used in this component.</p>
