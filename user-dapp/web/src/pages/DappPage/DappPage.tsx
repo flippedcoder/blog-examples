@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import Web3 from 'web3'
-import { TODO_LIST_ABI, TODO_LIST_ADDRESS } from '../../config.js'
+import { VIDEO_LIST_ABI, VIDEO_LIST_ADDRESS } from '../../config'
 
 
 export const DappPage = () => {
   const [account, setAccount] = useState<string>('')
-  const [todoList, setTodoList] = useState()
-  const [taskCount, setTaskCount] = useState(0)
-  const [tasks, setTasks] = useState([])
+  const [videoList, setVideoList] = useState<any>()
+  const [videoCount, setVideoCount] = useState(0)
+  const [videos, setVideos] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -19,18 +20,42 @@ export const DappPage = () => {
     const accounts = await web3.eth.getAccounts()
     setAccount(accounts[0])
 
-    const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
+    const videoList = new web3.eth.Contract(VIDEO_LIST_ABI, VIDEO_LIST_ADDRESS)
 
-    setTodoList(todoList)
+    setVideoList(videoList)
 
-    const taskCount = await todoList.methods.taskCount().call()
-    setTaskCount(taskCount)
+    const videoCount = await videoList.methods.videoCount().call()
+    setVideoCount(videoCount)
 
-    for (var i = 1; i <= taskCount; i++) {
-      const task = await todoList.methods.tasks(i).call()
-      setTasks([...tasks, task])
+    for (var i = 1; i <= videoCount; i++) {
+      const video = await videoList.methods.videos(i).call()
+      setVideos([...videos, video])
     }
   }
 
-  return <div>Dapp go here {account}</div>
+  const createTask = (content) => {
+    setLoading(true)
+    videoList.methods.createTask(content).send({ from: account })
+      .once('receipt', (receipt) => {
+        setLoading(false)
+      })
+  }
+
+  return (
+    <div>
+      Dapp go here {account}
+      <ul id="videoList">
+        {videos.map((video, key) => {
+          return (
+            <div key={key}>
+              <label>
+                <input type="checkbox" />
+                <span className="content">{video.url}</span>
+              </label>
+            </div>
+          )
+        })}
+      </ul>
+    </div>
+  )
 }

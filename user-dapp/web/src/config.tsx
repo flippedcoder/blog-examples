@@ -1,6 +1,6 @@
-export const TODO_LIST_ADDRESS = 'YOUR_SMART_CONTRACT_ADDRESS_GOES_HERE'
+export const VIDEO_LIST_ADDRESS = 'YOUR_SMART_CONTRACT_ADDRESS_GOES_HERE'
 
-export const TODO_LIST_ABI = [
+export const VIDEO_LIST_ABI: any = [
   {
     "constant": true,
     "inputs": [
@@ -9,18 +9,18 @@ export const TODO_LIST_ABI = [
         "type": "uint256"
       }
     ],
-    "name": "tasks",
+    "name": "videos",
     "outputs": [
       {
         "name": "id",
         "type": "uint256"
       },
       {
-        "name": "content",
+        "name": "url",
         "type": "string"
       },
       {
-        "name": "completed",
+        "name": "uploaded",
         "type": "bool"
       }
     ],
@@ -32,7 +32,7 @@ export const TODO_LIST_ABI = [
   {
     "constant": true,
     "inputs": [],
-    "name": "taskCount",
+    "name": "videoCount",
     "outputs": [
       {
         "name": "",
@@ -61,16 +61,16 @@ export const TODO_LIST_ABI = [
       },
       {
         "indexed": false,
-        "name": "content",
+        "name": "url",
         "type": "string"
       },
       {
         "indexed": false,
-        "name": "completed",
+        "name": "uploaded",
         "type": "bool"
       }
     ],
-    "name": "TaskCreated",
+    "name": "VideoUploaded",
     "type": "event",
     "signature": "0x05d0fb833127fc08168556d0e7ca9554fc3f6bc843b3b7d2bf1c35aea6bab660"
   },
@@ -84,11 +84,11 @@ export const TODO_LIST_ABI = [
       },
       {
         "indexed": false,
-        "name": "completed",
+        "name": "uploaded",
         "type": "bool"
       }
     ],
-    "name": "TaskCompleted",
+    "name": "UploadComplete",
     "type": "event",
     "signature": "0xe21fa966ca5cd02748c0752352d18c48165e61cb55b4c29cccf924b5a95fcff1"
   },
@@ -96,11 +96,11 @@ export const TODO_LIST_ABI = [
     "constant": false,
     "inputs": [
       {
-        "name": "_content",
+        "name": "_url",
         "type": "string"
       }
     ],
-    "name": "createTask",
+    "name": "uploadVideo",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
