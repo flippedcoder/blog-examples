@@ -24,18 +24,16 @@ export const DappPage = () => {
 
     setVideoList(videoList)
 
-    const videoCount = await videoList.methods.videoCount().call()
-    setVideoCount(videoCount)
-
-    for (var i = 1; i <= videoCount; i++) {
-      const video = await videoList.methods.videos(i).call()
+    for (var i = 1; i <= 1; i++) {
+      // @ts-ignore
+      const video = await videoList.videos(i)
       setVideos([...videos, video])
     }
   }
 
-  const createTask = (content) => {
+  const createVideo = (content) => {
     setLoading(true)
-    videoList.methods.createTask(content).send({ from: account })
+    videoList.methods.createVideo(content).send({ from: account })
       .once('receipt', (receipt) => {
         setLoading(false)
       })
@@ -49,7 +47,6 @@ export const DappPage = () => {
           return (
             <div key={key}>
               <label>
-                <input type="checkbox" />
                 <span className="content">{video.url}</span>
               </label>
             </div>
