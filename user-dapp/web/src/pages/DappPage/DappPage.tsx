@@ -10,23 +10,26 @@ export const DappPage = () => {
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(false)
 
+  // @ts-ignore
   useEffect(() => {
     loadData()
   }, [])
 
   const loadData = async () => {
-    const web3 = new Web3(Web3.givenProvider || 'http://localhost:8912')
+    const web3 = new Web3('http://localhost:7545')
 
-    const accounts = await web3.eth.getAccounts()
+    const accounts = await web3.eth?.getAccounts()
+
     setAccount(accounts[0])
 
     const videoList = new web3.eth.Contract(VIDEO_LIST_ABI, VIDEO_LIST_ADDRESS)
-
     setVideoList(videoList)
 
-    for (var i = 1; i <= 1; i++) {
+    const videoCount = await videoList.methods.videoCount().call()
+
+    for (var i = 1; i <= videoCount; i++) {
       // @ts-ignore
-      const video = await videoList.videos(i)
+      const video = await videoList.methods.videos(i).call()
       setVideos([...videos, video])
     }
   }
@@ -47,7 +50,7 @@ export const DappPage = () => {
           return (
             <div key={key}>
               <label>
-                <span className="content">{video.url}</span>
+                <video src={video.url}></video>
               </label>
             </div>
           )

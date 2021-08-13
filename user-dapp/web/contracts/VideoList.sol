@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
 contract VideoList {
-  uint videoCount = 0;
+  uint public videoCount = 0;
 
   struct Video {
     uint id;
