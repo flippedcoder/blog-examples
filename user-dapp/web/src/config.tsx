@@ -2,7 +2,7 @@
 // truffle console
 // vl = await VideoList.deployed()
 // vl.address
-export const VIDEO_LIST_ADDRESS = '0x66c22C25fCbd22614D63b393a74b7216265f45C2'
+export const VIDEO_LIST_ADDRESS = '0x82293fe0BE6cCbA6Eb9bd6d5824fC6ACeB6d3957'
 
 // This is the abi part of the VideoList.json
 export const VIDEO_LIST_ABI: any = [

@@ -15561,6 +15561,11 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-cloudinary-upload-widget@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/react-cloudinary-upload-widget/-/react-cloudinary-upload-widget-1.4.3.tgz#e4ec38e1f968a470634f7283a8e5dbf2beaf9bbe"
+  integrity sha512-Vgw9R2rkQWFnfMWoXTGFfZItOcOHd8xbFG/OFN9BdkelmVlQyE+TKDrTQ2RCWpcImUO0a/poET+qSNJsn2pJ8Q==
+
 react-colorful@^5.1.2:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.3.0.tgz#bcbae49c1affa9ab9a3c8063398c5948419296bd"
