@@ -6,8 +6,10 @@ import { useMutation } from '@redwoodjs/web'
 const MixerPage = () => {
   const [createMix] = useMutation(CREATE_MIX_MUTATION)
   const [mix, setMix] = useState([])
+  const [video, setVideo] = useState('')
 
   const notes = ['G3', 'A6', 'C9', 'B5', 'D7', 'F1', 'E8', 'A7', 'G6', 'B1', 'F4', 'C5']
+  const videos = ['https://res.cloudinary.com/milecia/video/upload/v1606580790/elephant_herd.mp4', 'https://res.cloudinary.com/milecia/video/upload/v1606580788/sea-turtle.mp4', 'https://res.cloudinary.com/milecia/video/upload/v1625835105/test0/tq0ejpc2uz5jakz54dsj.mp4', 'https://res.cloudinary.com/milecia/video/upload/v1625799334/test0/ebxcgjdw8fvgnj4zdson.mp4']
   // create a new synth and route the output to speaker
   const mixer = new Tone.MembraneSynth().toDestination()
 
@@ -31,6 +33,8 @@ const MixerPage = () => {
   const saveMix = (mix) => {
     const input = { name: `mix-${mix[0]}`, sample: mix.join() }
     createMix({ variables: { input } })
+    const randomInt = Math.floor(Math.random() * (videos.length - 1))
+    setVideo(videos[randomInt])
   }
 
   return (
@@ -42,6 +46,10 @@ const MixerPage = () => {
         ))}
       </Flex>
       <button onClick={() => saveMix(mix)}>Save Sounds</button>
+      {video !== '' &&
+        <video src={video} width='480' height='360' controls>
+        </video>
+      }
     </>
   )
 }
