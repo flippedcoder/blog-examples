@@ -19,7 +19,7 @@ const uploadChart = () => {
 
   fetch(uploadApi, {
     method: "POST",
-    body: body
+    body: JSON.stringify(body)
   })
     .then((response) => {
       console.log(response.text)
