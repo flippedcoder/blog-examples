@@ -8,11 +8,18 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Set, Router, Route } from '@redwoodjs/router'
+import MealsLayout from 'src/layouts/MealsLayout'
 import RecipesLayout from 'src/layouts/RecipesLayout'
 
 const Routes = () => {
   return (
     <Router>
+      <Set wrap={MealsLayout}>
+        <Route path="/meals/new" page={MealNewMealPage} name="newMeal" />
+        <Route path="/meals/{id}/edit" page={MealEditMealPage} name="editMeal" />
+        <Route path="/meals/{id}" page={MealMealPage} name="meal" />
+        <Route path="/meals" page={MealMealsPage} name="meals" />
+      </Set>
       <Route path="/" page={PickerPage} name="picker" />
       <Set wrap={RecipesLayout}>
         <Route path="/recipes/new" page={RecipeNewRecipePage} name="newRecipe" />

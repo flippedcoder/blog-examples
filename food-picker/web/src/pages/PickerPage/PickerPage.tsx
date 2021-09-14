@@ -1,21 +1,20 @@
-import styled from 'styled-components'
 import { useQuery } from '@redwoodjs/web'
 import { MetaTags } from '@redwoodjs/web'
 import { useState } from 'react'
 
 const PickerPage = () => {
-  const { loading, data } = useQuery(GET_RECIPES)
-  const [recipe, setRecipe] = useState<Recipe>()
+  const [meal, setMeal] = useState<Meal>()
+  const { loading, data } = useQuery(GET_MEALS)
 
   if (loading) {
     return <div>Loading...</div>
   }
 
-  const loadRecipe = () => {
-    if (data.recipes.length !== 0) {
-      const max = data.recipes.length
+  const loadMeal = () => {
+    if (data.meals.length !== 0) {
+      const max = data.meals.length
       const index = getRandomInt(0, max)
-      setRecipe(data.recipes[index])
+      setMeal(data.meals[index])
     }
   }
 
@@ -24,12 +23,12 @@ const PickerPage = () => {
       <MetaTags
         title="Picker"
       />
-      <h1>{recipe ? recipe.title : 'Find out what you are going to eat'}</h1>
-      <Button onClick={loadRecipe}>Tell me what to eat</Button>
-      {recipe &&
+      <h1>{meal ? meal.title : 'Find out what you are going to eat'}</h1>
+      <button onClick={loadMeal} style={{ fontSize: '18px', padding: '24px 32px', width: '500px' }}>Tell me what to eat</button>
+      {meal &&
         <>
-          <p>{recipe.details}</p>
-          <video src={recipe.video} controls height='350' width='500'></video>
+          <p>{meal.recipe}</p>
+          <video src={meal.video} controls height='350' width='500'></video>
         </>
       }
     </>
@@ -42,26 +41,20 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const GET_RECIPES = gql`
+const GET_MEALS = gql`
   query {
-    recipes {
+    meals {
       title
-      details
+      recipe
       video
     }
   }
 `
 
-interface Recipe {
+interface Meal {
   title: string
-  details: string
+  recipe: string
   video: string
 }
-
-const Button = styled.button`
-  font-size: 18px;
-  padding: 24px 32px;
-  width: 500px;
-`
 
 export default PickerPage
