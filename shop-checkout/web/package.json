@@ -16,8 +16,11 @@
     "@redwoodjs/forms": "0.36.4",
     "@redwoodjs/router": "0.36.4",
     "@redwoodjs/web": "0.36.4",
+    "@stripe/react-stripe-js": "^1.4.1",
+    "@stripe/stripe-js": "^1.17.1",
     "prop-types": "15.7.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-stripe-checkout": "^2.6.3"
   }
 }
