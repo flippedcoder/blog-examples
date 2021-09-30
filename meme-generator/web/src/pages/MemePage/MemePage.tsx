@@ -12,7 +12,6 @@ const CREATE_MEME_MUTATION = gql`
 
 const MemePage = () => {
   const [createMeme] = useMutation(CREATE_MEME_MUTATION)
-  const [title, setTitle] = useState<string>('')
   const [textTop, setTextTop] = useState<string>('')
   const [textBottom, setTextBottom] = useState<string>('')
 
@@ -45,7 +44,6 @@ const MemePage = () => {
           <input
             type='text'
             name='title'
-            onChange={e => setTitle(e.currentTarget.value)}
           />
         </div>
         <div>
