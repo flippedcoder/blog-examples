@@ -5,7 +5,7 @@ import { PROFILE_ABI, PROFILE_ADDRESS } from '../../config'
 export const ProfilePage = () => {
   const [account, setAccount] = useState<string>('')
   const [profile, setProfile] = useState<any>()
-  const [users, setUsers] = useState([])
+  const [user, setUser] = useState([])
 
   useEffect(() => {
     loadData()
@@ -15,18 +15,13 @@ export const ProfilePage = () => {
     const web3 = new Web3('http://localhost:7545')
 
     const accounts = await web3.eth?.getAccounts()
-
     setAccount(accounts[0])
 
     const profile = new web3.eth.Contract(PROFILE_ABI, PROFILE_ADDRESS)
     setProfile(profile)
 
-    const userCount = await profile.methods.userCount().call()
-
-    for (var i = 1; i <= userCount; i++) {
-      const user = await userCount.methods.videos(i).call()
-      setUsers([...users, user])
-    }
+    const user = await profile.methods.userByAddress(account).call()
+    setUser(user)
   }
 
   return (
