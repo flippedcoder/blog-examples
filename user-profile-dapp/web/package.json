@@ -1,0 +1,31 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "browserslist": {
+    "development": [
+      "last 1 version"
+    ],
+    "production": [
+      "defaults",
+      "not IE 11",
+      "not IE_Mob 11"
+    ]
+  },
+  "dependencies": {
+    "@redwoodjs/forms": "0.37.4",
+    "@redwoodjs/router": "0.37.4",
+    "@redwoodjs/web": "0.37.4",
+    "crypto": "^1.0.1",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "prop-types": "15.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "stream": "^0.0.2",
+    "truffle": "^5.4.15",
+    "truffle-contract": "^4.0.31",
+    "util": "^0.12.4",
+    "web3": "^1.6.0"
+  }
+}
