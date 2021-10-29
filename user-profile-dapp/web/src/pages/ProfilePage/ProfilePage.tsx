@@ -2,10 +2,16 @@ import { useState, useEffect } from 'react'
 import Web3 from 'web3'
 import { PROFILE_ABI, PROFILE_ADDRESS } from '../../config'
 
-export const ProfilePage = () => {
+interface UserProps {
+  name: string;
+  role: string;
+  img: string;
+}
+
+const ProfilePage = () => {
   const [account, setAccount] = useState<string>('')
   const [profile, setProfile] = useState<any>()
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState<UserProps>()
 
   useEffect(() => {
     loadData()
@@ -17,6 +23,7 @@ export const ProfilePage = () => {
     const accounts = await web3.eth?.getAccounts()
     setAccount(accounts[0])
 
+    // @ts-ignore
     const profile = new web3.eth.Contract(PROFILE_ABI, PROFILE_ADDRESS)
     setProfile(profile)
 
@@ -26,18 +33,17 @@ export const ProfilePage = () => {
 
   return (
     <div>
+      <h1>Profile Page</h1>
       Profile account id: {account}
-      <ul id="videoList">
-        {users.map((user, key) => {
-          return (
-            <div key={key}>
-              <p>{user.name}</p>
-              <p>{user.role}</p>
-              <img src={user.img} />
-            </div>
-          )
-        })}
-      </ul>
+      {user &&
+        <div>
+          <p>{user.name}</p>
+          <p>{user.role}</p>
+          <img src={user.img} />
+        </div>
+      }
     </div>
   )
 }
+
+export default ProfilePage

@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
 contract Profile {
   address private _owner;
@@ -17,7 +17,7 @@ contract Profile {
   mapping(address => User) public usersByAddress;
   mapping(uint256 => User) public usersById;
 
-  constructor() {
+  constructor() public {
     _owner = msg.sender;
 
     createUser(
