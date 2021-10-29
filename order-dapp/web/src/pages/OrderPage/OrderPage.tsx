@@ -36,7 +36,8 @@ const OrderPage = () => {
 
   return (
     <>
-      {orders.map((order) => (
+      <h1>Orders from EVM</h1>
+      {orders?.map((order) => (
         <>
           <div>Item: {order.itemName}</div>
           <div>Price: {order.price}</div>

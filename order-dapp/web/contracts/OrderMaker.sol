@@ -1,4 +1,4 @@
-pragma solidity 0.8.9;
+pragma solidity ^0.5.0;
 
 contract OrderMaker {
   event NewOrder(uint256 orderId, string itemName, uint256 price);

@@ -2,69 +2,14 @@
 // truffle console
 // vl = await VideoList.deployed()
 // vl.address
-export const ORDER_MAKER_ADDRESS = '0x7730cd060d16B33E383D67baB16D1110Fb818ADa'
+export const ORDER_MAKER_ADDRESS = '0xD6Ea791eae2dF323EF7e689F2C64C2D9Dda01eea'
 
 // This is the abi part of the VideoList.json
 export const ORDER_MAKER_ABI: any = [
   {
-    "anonymous": false,
+    "constant": true,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "orderId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "itemName",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      }
-    ],
-    "name": "NewOrder",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "orders",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "itemName",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "quantity",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
@@ -72,19 +17,47 @@ export const ORDER_MAKER_ABI: any = [
     "name": "ordersFromUser",
     "outputs": [
       {
-        "internalType": "address",
         "name": "",
         "type": "address"
       }
     ],
+    "payable": false,
     "stateMutability": "view",
     "type": "function",
-    "constant": true
+    "signature": "0x61caab7f"
   },
   {
+    "constant": true,
     "inputs": [
       {
-        "internalType": "address",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "orders",
+    "outputs": [
+      {
+        "name": "itemName",
+        "type": "string"
+      },
+      {
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "name": "quantity",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0xa85c38ef"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
         "name": "",
         "type": "address"
       }
@@ -92,31 +65,55 @@ export const ORDER_MAKER_ABI: any = [
     "name": "userOrderCount",
     "outputs": [
       {
-        "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
     ],
+    "payable": false,
     "stateMutability": "view",
     "type": "function",
-    "constant": true
+    "signature": "0xec4eb4f9"
   },
   {
+    "anonymous": false,
     "inputs": [
       {
-        "internalType": "string",
+        "indexed": false,
+        "name": "orderId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "itemName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "price",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewOrder",
+    "type": "event",
+    "signature": "0x259c921abca4850f591a4f6c2bb26564b6e363f6e1a47340f60ae5df3199cb4a"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "name": "_itemName",
         "type": "string"
       },
       {
-        "internalType": "uint256",
         "name": "_quantity",
         "type": "uint256"
       }
     ],
     "name": "createOrder",
     "outputs": [],
+    "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
+    "signature": "0x97de706f"
   }
 ]
