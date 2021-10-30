@@ -1,6 +1,6 @@
-export const PROFILE_ADDRESS = '0x47D66545C77B378f946EbA9Ac9AfDFb743D62de2'
+export const PROFILE_ADDRESS = '0x6B0C22b32217980CA5B6C8b832fc99e795a44D6F'
 
-export const PROFILE_ABI = [
+export const PROFILE_ABI: any = [
   {
     "constant": true,
     "inputs": [],
@@ -57,36 +57,20 @@ export const PROFILE_ABI = [
     "inputs": [
       {
         "name": "",
-        "type": "address"
+        "type": "uint256"
       }
     ],
-    "name": "usersByAddress",
+    "name": "addressById",
     "outputs": [
       {
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "name": "role",
-        "type": "string"
-      },
-      {
-        "name": "profileImg",
-        "type": "string"
-      },
-      {
-        "name": "isRegistered",
-        "type": "bool"
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
     "stateMutability": "view",
     "type": "function",
-    "signature": "0x6bf693c4"
+    "signature": "0x87d3a024"
   },
   {
     "inputs": [],

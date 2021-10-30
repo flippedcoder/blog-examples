@@ -14,8 +14,8 @@ contract Profile {
     bool isRegistered;
   }
 
-  mapping(address => User) public usersByAddress;
   mapping(uint256 => User) public usersById;
+  mapping(uint256 => address) public addressById;
 
   constructor() public {
     _owner = msg.sender;
@@ -28,6 +28,14 @@ contract Profile {
     );
   }
 
+  // Check if user is the contract owner
+  function _isOwner(address _address) private view returns (bool isOwner) {
+    if (_owner == _address) {
+      return true;
+    }
+    return false;
+  }
+
   function createUser(
     string memory _name,
     string memory _role,
@@ -36,7 +44,7 @@ contract Profile {
   ) public {
     userCount++;
 
-    usersByAddress[msg.sender] = User(
+    usersById[userCount] = User(
       userCount,
       _name,
       _role,
@@ -44,15 +52,9 @@ contract Profile {
       _isRegistered
     );
 
-    emit NewProfile(userCount, _name, _role, _profileImg);
-  }
+    addressById[userCount] = msg.sender;
 
-  // Check if user is the contract owner
-  function _isOwner(address _address) private view returns (bool isOwner) {
-    if (_owner == _address) {
-      return true;
-    }
-    return false;
+    emit NewProfile(userCount, _name, _role, _profileImg);
   }
 
   // Allow the owner to chaange registration status
