@@ -13,10 +13,6 @@ const ProfilePage = () => {
   const [account, setAccount] = useState<string>('')
   const [profile, setProfile] = useState<any>()
   const [user, setUser] = useState<UserProps>()
-  const [formData, setFormData] = useState<UserProps>()
-  const [role, setRole] = useState<string>()
-  const [profileImg, setProfileImg] = useState<string>()
-  const [isRegistered, setIsRegistered] = useState<boolean>()
 
   useEffect(() => {
     loadData()
@@ -52,19 +48,28 @@ const ProfilePage = () => {
         <div>
           <p>{user.name}</p>
           <p>{user.role}</p>
-          <video controls src={user.profileImg} />
           <input type="checkbox" checked={user.isRegistered} />
+          <video controls src={user.profileImg} width="360" />
         </div>
       }
+      <h2>Add user profile to the chain</h2>
       <form onSubmit={createProfile}>
-        <label htmlFor='name'>Name:</label>
-        <input name='name' type='text' />
-        <label htmlFor='role'>Role:</label>
-        <input name='role' type='text' />
-        <label htmlFor='profileImg'>Profile Pic:</label>
-        <input name='profileImg' type='text' />
-        <label htmlFor='isRegistered'>Registered:</label>
-        <input name='isRegistered' type='checkbox' />
+        <div>
+          <label htmlFor='name'>Name:</label>
+          <input name='name' type='text' />
+        </div>
+        <div>
+          <label htmlFor='role'>Role:</label>
+          <input name='role' type='text' />
+        </div>
+        <div>
+          <label htmlFor='profileImg'>Profile Pic:</label>
+          <input name='profileImg' type='text' />
+        </div>
+        <div>
+          <label htmlFor='isRegistered'>Registered:</label>
+          <input name='isRegistered' type='checkbox' />
+        </div>
         <button type='submit'>Submit</button>
       </form>
     </div>
