@@ -1,5 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
-import { MetaTags } from '@redwoodjs/web'
 import { useEffect, useState } from 'react'
 import Web3 from 'web3'
 
@@ -26,12 +24,21 @@ const OrderPage = () => {
     )
     setOrderMaker(orderMaker)
 
-    const userOrderCount = await orderMaker.methods.userOrderCount().call()
+    const userOrderCount = await orderMaker.methods.userOrderCount(accounts[0]).call()
+    console.log(userOrderCount)
 
-    for (let i = 1; i <= userOrderCount; i++) {
-      const order = await orderMaker.methods.orders(i).call()
-      setOrders([...orders, order])
-    }
+    // const order = await orderMaker.methods.ordersFromUser(accounts[0]).call()
+    // console.log(order)
+    // setOrders({ itemName: order.itemName, price: order.price, quantity: order.quantity })
+  }
+
+  const createOrder = async (event) => {
+    event.preventDefault()
+    const { itemName, quantity } = event.target.elements
+    await orderMaker.methods.createOrder(itemName.value, quantity.value).send({ from: account, gas: 4712388 })
+      .once('receipt', (receipt) => {
+        console.log(receipt)
+      })
   }
 
   return (
@@ -44,6 +51,17 @@ const OrderPage = () => {
           <div>Quantity: {order.quantity}</div>
         </>
       ))}
+      <form onSubmit={createOrder}>
+        <div>
+          <label htmlFor='itemName'>Item Name:</label>
+          <input name='itemName' type='text' />
+        </div>
+        <div>
+          <label htmlFor='quantity'>Amount:</label>
+          <input name='quantity' type='number' />
+        </div>
+        <button type='submit'>Submit</button>
+      </form>
     </>
   )
 }

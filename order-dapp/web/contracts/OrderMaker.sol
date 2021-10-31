@@ -11,9 +11,13 @@ contract OrderMaker {
 
   Order[] public orders;
 
+  constructor() public {
+    createOrder('Jalapeno', 9);
+  }
+
   // For each order id, we assign a user address
   // Looks like: {1 : 0x9j01rf09j09f2w}
-  mapping(uint256 => address) public ordersFromUser;
+  mapping(address => Order) public ordersFromUser;
   mapping(address => uint256) public userOrderCount;
 
   function _lookupPrice(string memory _itemName)
@@ -55,7 +59,7 @@ contract OrderMaker {
 
     uint256 id = orders.length - 1;
 
-    ordersFromUser[id] = msg.sender;
+    ordersFromUser[msg.sender] = Order(_itemName, _price, _quantity);
 
     userOrderCount[msg.sender] = userOrderCount[msg.sender]++;
 

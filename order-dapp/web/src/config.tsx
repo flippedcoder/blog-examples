@@ -2,7 +2,7 @@
 // truffle console
 // vl = await VideoList.deployed()
 // vl.address
-export const ORDER_MAKER_ADDRESS = '0xD6Ea791eae2dF323EF7e689F2C64C2D9Dda01eea'
+export const ORDER_MAKER_ADDRESS = '0xd28Ea5280d125183C28A4aC87bcef30Cd87e37Fb'
 
 // This is the abi part of the VideoList.json
 export const ORDER_MAKER_ABI: any = [
@@ -11,20 +11,28 @@ export const ORDER_MAKER_ABI: any = [
     "inputs": [
       {
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "name": "ordersFromUser",
     "outputs": [
       {
-        "name": "",
-        "type": "address"
+        "name": "itemName",
+        "type": "string"
+      },
+      {
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "name": "quantity",
+        "type": "uint256"
       }
     ],
     "payable": false,
     "stateMutability": "view",
     "type": "function",
-    "signature": "0x61caab7f"
+    "signature": "0x96a30f12"
   },
   {
     "constant": true,
@@ -73,6 +81,13 @@ export const ORDER_MAKER_ABI: any = [
     "stateMutability": "view",
     "type": "function",
     "signature": "0xec4eb4f9"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor",
+    "signature": "constructor"
   },
   {
     "anonymous": false,
