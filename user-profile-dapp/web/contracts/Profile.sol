@@ -1,10 +1,7 @@
 pragma solidity ^0.5.0;
 
 contract Profile {
-  address private _owner;
   uint256 public userCount = 0;
-
-  event NewProfile(uint256 userId, string name, string profileImg, string role);
 
   struct User {
     uint256 id;
@@ -15,25 +12,14 @@ contract Profile {
   }
 
   mapping(uint256 => User) public usersById;
-  mapping(uint256 => address) public addressById;
 
   constructor() public {
-    _owner = msg.sender;
-
     createUser(
       'Milecia',
       'admin',
-      'https://res.cloudinary.com/milecia/video/upload/c_pad,h_360,w_480,q_70,du_10/elephant_herd.mp4',
+      'https://res.cloudinary.com/milecia/image/upload/v1624811825/beach-360_p6u08j.jpg',
       true
     );
-  }
-
-  // Check if user is the contract owner
-  function _isOwner(address _address) private view returns (bool isOwner) {
-    if (_owner == _address) {
-      return true;
-    }
-    return false;
   }
 
   function createUser(
@@ -51,15 +37,5 @@ contract Profile {
       _profileImg,
       _isRegistered
     );
-
-    addressById[userCount] = msg.sender;
-
-    emit NewProfile(userCount, _name, _role, _profileImg);
-  }
-
-  // Allow the owner to chaange registration status
-  function updateRegistration(uint256 _userId, bool _isRegistered) public {
-    require(msg.sender == _owner, 'Only the owner can change registration.');
-    usersById[_userId].isRegistered = _isRegistered;
   }
 }

@@ -13,6 +13,7 @@ export const schema = gql`
 
   input CreateProfileInput {
     email: String!
+    updatedAt: DateTime!
     blockchainAddress: String!
   }
 

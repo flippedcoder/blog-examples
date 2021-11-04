@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useMutation } from '@redwoodjs/web'
 import Web3 from 'web3'
 import { PROFILE_ABI, PROFILE_ADDRESS } from '../../config'
 
@@ -9,7 +10,17 @@ interface UserProps {
   isRegistered: boolean;
 }
 
+const CREATE_PROFILE_MUTATION = gql`
+  mutation CreateProfileMutation($input: CreateProfileInput!) {
+    createProfile(input: $input) {
+      id
+    }
+  }
+`
+
 const ProfilePage = () => {
+  const [createProfile] = useMutation(CREATE_PROFILE_MUTATION)
+
   const [account, setAccount] = useState<string>('')
   const [profile, setProfile] = useState<any>()
   const [user, setUser] = useState<UserProps>()
@@ -27,17 +38,22 @@ const ProfilePage = () => {
     const profile = new web3.eth.Contract(PROFILE_ABI, PROFILE_ADDRESS)
     setProfile(profile)
 
-    const user = await profile.methods.usersById(2).call()
+    const user = await profile.methods.usersById(1).call()
     setUser(user)
   }
 
-  const createProfile = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    const { name, role, profileImg, isRegistered } = event.target.elements
+
+    const { email, name, role, profileImg, isRegistered } = event.target.elements
+
+    const input = { email: email.value, updatedAt: new Date().toISOString(), blockchainAddress: account }
+
+    createProfile({
+      variables: { input },
+    })
+
     await profile.methods.createUser(name.value, role.value, profileImg.value, isRegistered.value).send({ from: account, gas: 4712388 })
-      .once('receipt', (receipt) => {
-        console.log(receipt)
-      })
   }
 
   return (
@@ -47,16 +63,20 @@ const ProfilePage = () => {
       {user &&
         <div>
           <p>{user.name}</p>
-          <p>{user.role}</p>
           <input type="checkbox" checked={user.isRegistered} />
-          <video controls src={user.profileImg} width="360" />
+          <p>{user.role}</p>
+          <img src={user.profileImg} width="360" />
         </div>
       }
       <h2>Add user profile to the chain</h2>
-      <form onSubmit={createProfile}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor='name'>Name:</label>
           <input name='name' type='text' />
+        </div>
+        <div>
+          <label htmlFor='email'>Email:</label>
+          <input name='email' type='email' />
         </div>
         <div>
           <label htmlFor='role'>Role:</label>
