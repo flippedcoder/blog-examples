@@ -1,24 +1,20 @@
 pragma solidity ^0.5.0;
 
 contract OrderMaker {
-  event NewOrder(uint256 orderId, string itemName, uint256 price);
-
   struct Order {
     string itemName;
     uint256 price;
     uint256 quantity;
   }
 
-  Order[] public orders;
+  Order[] private orders;
 
   constructor() public {
-    createOrder('Jalapeno', 9);
+    _createOrder('Jalapeno', 9, 3);
   }
 
-  // For each order id, we assign a user address
-  // Looks like: {1 : 0x9j01rf09j09f2w}
-  mapping(address => Order) public ordersFromUser;
-  mapping(address => uint256) public userOrderCount;
+  mapping(address => Order) public ordersByUser;
+  mapping(uint256 => Order) public ordersById;
 
   function _lookupPrice(string memory _itemName)
     private
@@ -57,17 +53,16 @@ contract OrderMaker {
   ) internal {
     orders.push(Order(_itemName, _price, _quantity));
 
-    uint256 id = orders.length - 1;
+    uint256 id = orders.length;
 
-    ordersFromUser[msg.sender] = Order(_itemName, _price, _quantity);
+    ordersByUser[msg.sender] = orders[id - 1];
 
-    userOrderCount[msg.sender] = userOrderCount[msg.sender]++;
-
-    emit NewOrder(id, _itemName, _price);
+    ordersById[id] = orders[id - 1];
   }
 
   // Allow anyone to create an order
-  function createOrder(string memory _itemName, uint256 _quantity) public {
+  function createOrder(string memory _itemName, uint256 _quantity) public payable {
+    require(msg.value == 0.001 ether);
     uint256 itemPrice = _lookupPrice(_itemName);
     _createOrder(_itemName, _quantity, itemPrice);
   }

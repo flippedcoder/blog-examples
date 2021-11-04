@@ -5,16 +5,16 @@ import { ORDER_MAKER_ABI, ORDER_MAKER_ADDRESS } from '../../config'
 
 const OrderPage = () => {
   const [account, setAccount] = useState<string>('')
-  const [orders, setOrders] = useState(null)
+  const [order, setOrder] = useState(null)
   const [orderMaker, setOrderMaker] = useState(null)
+
+  const web3 = new Web3('http://localhost:7545')
 
   useEffect(() => {
     loadData()
   }, [])
 
   const loadData = async () => {
-    const web3 = new Web3('http://localhost:7545')
-
     const accounts = await web3.eth?.getAccounts()
     setAccount(accounts[0])
 
@@ -24,33 +24,27 @@ const OrderPage = () => {
     )
     setOrderMaker(orderMaker)
 
-    const userOrderCount = await orderMaker.methods.userOrderCount(accounts[0]).call()
-    console.log(userOrderCount)
-
-    // const order = await orderMaker.methods.ordersFromUser(accounts[0]).call()
-    // console.log(order)
-    // setOrders({ itemName: order.itemName, price: order.price, quantity: order.quantity })
+    const order = await orderMaker.methods.ordersById(1).call()
+    setOrder(order)
   }
 
   const createOrder = async (event) => {
     event.preventDefault()
+
     const { itemName, quantity } = event.target.elements
-    await orderMaker.methods.createOrder(itemName.value, quantity.value).send({ from: account, gas: 4712388 })
-      .once('receipt', (receipt) => {
-        console.log(receipt)
-      })
+    await orderMaker.methods.createOrder(itemName.value, quantity.value).send({ from: account, gas: 4712388, value: web3.utils.toWei("0.001") })
   }
 
   return (
     <>
-      <h1>Orders from EVM</h1>
-      {orders?.map((order) => (
+      <h1>Order from EVM</h1>
+      {order &&
         <>
           <div>Item: {order.itemName}</div>
           <div>Price: {order.price}</div>
           <div>Quantity: {order.quantity}</div>
         </>
-      ))}
+      }
       <form onSubmit={createOrder}>
         <div>
           <label htmlFor='itemName'>Item Name:</label>
