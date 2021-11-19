@@ -7,7 +7,7 @@ const WorldPage = () => {
     return <div>Loading...</div>
   }
 
-  const worldUrl = data?.worlds[data.worlds.length - 1].imageName || 'room-360_nag5ns.jpg'
+  const worldUrl = data?.worlds[data.worlds.length - 1]?.imageName || 'room-360_nag5ns.jpg'
 
   return (
     <a-scene>
