@@ -1,15 +1,6 @@
-import { Link, routes } from '@redwoodjs/router'
 import { useQuery, useMutation } from '@redwoodjs/web'
 import { useRef, useState } from 'react'
 import { toPng } from 'html-to-image'
-
-const CREATE_HEATMAP_MUTATION = gql`
-  mutation CreateHeatmapMutation($input: CreateHeatmapInput!) {
-    createHeatmap(input: $input) {
-      id
-    }
-  }
-`
 
 const GET_IMAGES = gql`
   query {
@@ -21,13 +12,26 @@ const GET_IMAGES = gql`
   }
 `
 
+const CREATE_HEATMAP_MUTATION = gql`
+  mutation CreateHeatmapMutation($input: CreateHeatmapInput!) {
+    createHeatmap(input: $input) {
+      id
+    }
+  }
+`
+
 const HeatmapPage = () => {
   const [createHeatmap] = useMutation(CREATE_HEATMAP_MUTATION)
-  const { data } = useQuery(GET_IMAGES)
+  const { data, loading } = useQuery(GET_IMAGES)
+
   const heatmapRef = useRef(null)
   const [image, setImage] = useState({id: 1, url: 'https://res.cloudinary.com/milecia/image/upload/v1606580778/3dogs.jpg'})
   const [bottom, setBottom] = useState<string>('0')
   const [left, setLeft] = useState<string>('0')
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   const uploadHeatmap = async () => {
     if (heatmapRef.current === null) {
@@ -78,18 +82,21 @@ const HeatmapPage = () => {
     }
   }
 
-  if (!data) {
-    return <div>Loading...</div>
-  }
-
   return (
     <>
       <h1>HeatmapPage</h1>
       <select onChange={(e) => {
         const {id, url} = JSON.parse(e.target.value)
-        setImage({id: id, url: url})}}>
+        setImage({id: id, url: url})}
+        }
+      >
         {data.images.map(image => (
-          <option key={image.id} value={`{"id": ${image.id}, "url": "${image.url}"}`}>{image.name}</option>
+          <option
+            key={image.id}
+            value={`{"id": ${image.id}, "url": "${image.url}"}`}
+          >
+            {image.name}
+          </option>
           ))
         }
       </select>
@@ -100,8 +107,28 @@ const HeatmapPage = () => {
         <button onClick={() => setPosition('bottom-left')}>Bottom-Left</button>
         <button onClick={() => setPosition('bottom-right')}>Bottom-Right</button>
       </div>
-      <div ref={heatmapRef} style={{ backgroundImage: `url(${image.url})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: 300, position: 'absolute', width: '100%' }}>
-        <div style={{ background: 'radial-gradient(rgba(0, 255, 25, 0.5), rgba(255, 0, 25, 0.5))', height: 150, position: 'relative', bottom: bottom, left: left, width: 250, zIndex: 10 }}></div>
+      <div
+        ref={heatmapRef}
+        style={{
+          backgroundImage: `url(${image.url})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          height: 300,
+          position: 'absolute',
+          width: '100%'
+        }}
+      >
+        <div
+          style={{
+            background: 'radial-gradient(rgba(0, 255, 25, 0.5), rgba(255, 0, 25, 0.5))',
+            height: 150,
+            position: 'relative',
+            bottom: bottom,
+            left: left,
+            width: 250,
+            zIndex: 10
+          }}
+        ></div>
       </div>
     </>
   )
