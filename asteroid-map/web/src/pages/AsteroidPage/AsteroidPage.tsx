@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@redwoodjs/web'
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { toPng } from 'html-to-image'
 
 const CREATE_MAP_MUTATION = gql`
@@ -24,15 +24,17 @@ function AsteroidPage() {
 
   const canvasRef = useRef(null)
 
-  const [name, setName] = useState<string>()
   const [startDate, setStartDate] = useState("2021-08-12")
   const [endDate, setEndDate] = useState("2021-08-15")
   const [viewDate, setViewDate] = useState("2021-08-13")
-  const [asteroidData, setAsteroidData] = useState([])
 
   const { loading, data } = useQuery(GET_ASTEROIDS, {
     variables: { input: { startDate: startDate, endDate: endDate, viewDate: viewDate }},
   })
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   async function submit(e) {
     e.preventDefault()
@@ -74,10 +76,6 @@ function AsteroidPage() {
     })
   }
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
   function makeAsteroidMap() {
     if (canvasRef.current.getContext) {
       let ctx = canvasRef.current.getContext('2d')
@@ -114,9 +112,9 @@ function AsteroidPage() {
           <label htmlFor="viewDate">View Date</label>
           <input type="date" name="viewDate" />
         </div>
-        <button type="button" onClick={makeAsteroidMap}>View Map</button>
         <button type="submit">Save Asteroid Map</button>
       </form>
+      <button type="button" onClick={makeAsteroidMap}>View Map</button>
       <canvas id="asteroidMap" ref={canvasRef} height="3000" width="3000"></canvas>
     </>
   )

@@ -7,12 +7,6 @@ export const schema = gql`
     mapUrl: String!
   }
 
-  type NeoWProps {
-    startDate: DateTime!
-    endDate: DateTime!
-    viewDate: DateTime!
-  }
-
   type Asteroid {
     missDistance: String
     estimatedDiameter: String
