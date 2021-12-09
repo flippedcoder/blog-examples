@@ -11,5 +11,7 @@ generator client {
 model Map {
   id     Int    @id @default(autoincrement())
   name   String
+  startDate DateTime
+  endDate DateTime
   mapUrl String
 }

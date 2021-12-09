@@ -39,23 +39,22 @@ export const deleteMap = ({ id }: Prisma.MapWhereUniqueInput) => {
   })
 }
 
-export const asteroids = ({input}) => {
-  const startDate = input.startDate.toISOString().split('T')[0]
-  const endDate = input.endDate.toISOString().split('T')[0]
-  return fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=z7utAxPxjbIn4b1e5DopeTYiinGyaJgofKTHHypX`)
+export const asteroids = ({ input }) => {
+  return fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${input.startDate.toISOString().split('T')[0]}&end_date=${input.endDate.toISOString().split('T')[0]}&api_key=z7utAxPxjbIn4b1e5DopeTYiinGyaJgofKTHHypX`)
   .then(response => {
     return response.json()
   })
   .then(rawData => {
-    const viewDate = input.viewDate.toISOString().split('T')[0]
-    const data = rawData.near_earth_objects[viewDate]
-    console.log(data[0].close_approach_data[0].miss_distance.kilometers)
+    const data = rawData.near_earth_objects[input.viewDate.toISOString().split('T')[0]]
+
     const asteroids = data.map(value => {
       return {
         missDistance: value.close_approach_data[0].miss_distance.kilometers,
         estimatedDiameter: value.estimated_diameter.kilometers.estimated_diameter_max
       }
     })
+
+    console.log(asteroids)
     
     return asteroids
   })
