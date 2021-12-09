@@ -40,6 +40,10 @@ function AsteroidPage() {
     const startDate = e.currentTarget.startDate.value
     const endDate = e.currentTarget.endDate.value
     const viewDate = e.currentTarget.viewDate.value
+
+    setStartDate(startDate)
+    setEndDate(endDate)
+    setViewDate(viewDate)
     
     if (canvasRef.current === null) {
       return
@@ -60,8 +64,8 @@ function AsteroidPage() {
 
     const input = {
       name: mapName,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
       mapUrl: cloudinaryRes.url
     }
 
